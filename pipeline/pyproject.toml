@@ -1,0 +1,18 @@
+[project]
+name = "stormatlas"
+version = "0.1.0"
+description = "North Atlantic extratropical storm detection and tracking from ECMWF open data"
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy", "eccodes", "ecmwf-opendata"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+stormatlas = "stormatlas.cli:main"
+
+[tool.setuptools]
+packages = ["stormatlas"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storm Atlas · North Atlantic</title>
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="map" aria-label="North Atlantic map"></div>
+
+<header id="topbar">
+  <div class="brand"><span class="logo"></span><b>Storm Atlas</b><small>North Atlantic</small></div>
+  <div id="runinfo"></div>
+</header>
+<div id="demo-banner" hidden>DEMO DATA: synthetic storms, not a real forecast</div>
+
+<aside id="panel">
+  <section id="layers">
+    <h2>Layers</h2>
+    <div class="seg" id="raster-seg" role="radiogroup" aria-label="Raster layer">
+      <button data-raster="wind" class="on">Wind</button>
+      <button data-raster="swh">Waves</button>
+      <button data-raster="none">Off</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="chk-iso" checked> Pressure (isobars)</label>
+    <label class="chk"><input type="checkbox" id="chk-tracks" checked> Storm tracks</label>
+    <div class="row">
+      <label>Base map
+        <select id="basemap">
+          <option value="land">Dark (offline)</option>
+          <option value="carto">Light (online)</option>
+          <option value="gibs">Satellite, NASA GIBS (online)</option>
+        </select>
+      </label>
+      <label>Units
+        <select id="units"><option value="kmh">km/h</option><option value="kt">knots</option><option value="ms">m/s</option></select>
+      </label>
+    </div>
+  </section>
+  <section id="storms">
+    <h2>Storms <span id="storm-count"></span></h2>
+    <div id="storm-list"></div>
+  </section>
+  <section id="detail" hidden></section>
+  <footer>
+    Tracks are <b>model-derived</b>: automatic detection of pressure minima in ECMWF open data (CC BY 4.0). They are not official analyses.
+    For official positions use <a href="https://ocean.weather.gov/" target="_blank" rel="noopener">NOAA OPC</a>,
+    <a href="https://www.metoffice.gov.uk/weather/maps-and-charts/surface-pressure" target="_blank" rel="noopener">Met Office</a> or
+    <a href="https://www.dwd.de/" target="_blank" rel="noopener">DWD</a>.
+  </footer>
+</aside>
+
+<div id="legend"></div>
+<div id="readout"></div>
+
+<div id="timebar">
+  <button id="btn-prev" title="Previous step (←)">‹</button>
+  <button id="btn-play" title="Play / pause (space)">▶</button>
+  <button id="btn-next" title="Next step (→)">›</button>
+  <div id="timewrap">
+    <div id="timelabel"></div>
+    <input type="range" id="slider" min="0" max="0" value="0">
+  </div>
+</div>
+
+<script src="vendor/leaflet.js"></script>
+<script src="vendor/topojson-client.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
