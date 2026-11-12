@@ -13,6 +13,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
@@ -24,7 +25,11 @@ jobs:
       - run: cd pipeline && pytest -q
       - name: Fetch + process latest ECMWF open data
         working-directory: pipeline
-        run: python -m stormatlas fetch --source aws --stride 2 --out ../web/data --names ../names.json
+        # ECMWF's own server first; the AWS mirror is the fallback (it can be very slow, with 503 errors).
+        # Each attempt is capped so a slow mirror can't hold the job for hours.
+        run: |
+          timeout 15m python -m stormatlas fetch --source ecmwf --stride 2 --out ../web/data --names ../names.json \
+            || timeout 20m python -m stormatlas fetch --source aws --stride 2 --out ../web/data --names ../names.json
       - uses: actions/upload-pages-artifact@v3
         with: { path: web }
       - id: deploy
